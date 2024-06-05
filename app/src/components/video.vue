@@ -1,21 +1,30 @@
 <template>
   <div class="main">
     <ul>
-      <li>
+      <li class="videoItem">
         <h2>Comment créer un compte Google</h2>
         <div class="video-container">
           <video controls>
             <source src="/video.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
+            Votre navigateur ne supporte pas la balise vidéo.
           </video>
         </div>
       </li>
-      <li>
+      <li class="videoItem">
         <h2>Comment utiliser Chat GPT</h2>
         <div class="video-container">
           <video controls>
             <source src="/video2.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
+            Votre navigateur ne supporte pas la balise vidéo.
+          </video>
+        </div>
+      </li>
+      <li class="videoItem">
+        <h2>Comment utiliser Chat GPT</h2>
+        <div class="video-container">
+          <video controls>
+            <source src="/video2.mp4" type="video/mp4" />
+            Votre navigateur ne supporte pas la balise vidéo.
           </video>
         </div>
       </li>
@@ -33,7 +42,6 @@
   align-items: center;
   width: 100%;
   padding: 20px;
-  background-color: #f0f0f0;
 }
 
 ul {
@@ -42,10 +50,20 @@ ul {
   margin: 0;
   width: 100%;
   max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* espace entre les éléments */
 }
 
-li {
-  margin-bottom: 40px;
+.videoItem {
+  background-color: #8b8b8b;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 h2 {
@@ -56,11 +74,12 @@ h2 {
 
 .video-container {
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 */
+  padding-bottom: 56.25%; /* 16:9 ratio */
   height: 0;
-  overflow: hidden;
-  max-width: 100%;
+  width: 100%;
   background: #000;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 video {

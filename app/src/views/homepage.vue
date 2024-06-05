@@ -9,23 +9,21 @@ const route = useRoute()
 </script>
 
 <template >
-    
-  <div class="mainPage">
-    <header>
-      <TheHeader/>
-    </header>
     <div class="main">
         <div >
-        <RouterView/>
+        <homeView/>
       </div>
+      <div class="home">
+        <home/>
+      </div>
+      
     </div>
-    <div class="TheFooter">
-      <TheFooter/>
-    </div>
-  </div>
 </template>
 
 <style scoped>
+.home{
+width: 100%;
+}
 header {
   width: 200%;
   height: 50px;
@@ -37,16 +35,12 @@ header {
 }
 
 .main {
-  width: 200%;
-  height: auto;
-  display: grid;
-  
+  width: 100%;
+
+  grid-template-columns: 50% 50%;
+ 
 }
 
-.TheFooter{
-    width: 140%;
-    text-align: center;
-}
 .divRouterView {
   padding: 0%;
   margin: 0%;
