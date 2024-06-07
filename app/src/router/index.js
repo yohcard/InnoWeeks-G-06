@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
 import home from '@/views/homepage.vue'
 const routes = [
   {
@@ -17,15 +17,30 @@ const routes = [
     component: () => import('../components/video.vue')
   },
   {
-    path: '/homeHelp',
+    path: '/HomeHelp',
     name: 'homeHelp',
     component: () => import('@/views/homeHelp.vue')
+  },
+  {
+    path: '/PhoneCallHelp',
+    name: 'PhoneCallHelp',
+    component: () => import('@/views/PhoneCallHelp.vue')
+  },
+  {
+    path: '/Cours',
+    name: 'Cours',
+    component: () => import('@/views/cours.vue')
+  },
+  {
+    path: '/contact&Links',
+    name: 'contacte&links',
+    component: () => import('@/views/contact&Links.vue')
   }
-];
+]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
-});
+  routes
+})
 
-export default router;
+export default router

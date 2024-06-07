@@ -1,28 +1,29 @@
 <template>
-  <div class="home-help">
-    <h1>Prendre un rendez-vous pour une aide à domicile</h1>
+  <div class="cours">
+    <h1>Réserver un cours</h1>
     <form @submit.prevent="submitForm">
       <div>
         <label for="name">Nom :</label>
         <input type="text" id="name" v-model="form.name" required />
       </div>
       <div>
-        <label for="address">Adresse :</label>
-        <input type="text" id="address" v-model="form.address" required />
+        <label for="firstname">Prénom :</label>
+        <input type="text" id="firstname" v-model="form.firstname" required />
       </div>
       <div>
-        <label for="issues">Votre probleme :</label>
-        <input type="text" id="issues" v-model="form.issues" required />
+        <label for="email">Email:</label>
+        <input type="email" id="email" v-model="form.email" required />
       </div>
       <div>
-        <label for="date">Date :</label>
-        <input type="date" id="date" v-model="form.date" required />
+        <label for="course">Choisir un cours :</label>
+        <select id="course" v-model="form.course" required>
+          <option value="" disabled>Choisir un cours</option>
+          <option v-for="course in courses" :key="course.id" :value="course.name">
+            {{ course.name }} ({{ course.time }})
+          </option>
+        </select>
       </div>
-      <div>
-        <label for="time">Heure :</label>
-        <input type="time" id="time" v-model="form.time" required />
-      </div>
-      <button type="submit">Prendre rendez-vous</button>
+      <button type="submit">Réserver</button>
     </form>
     <div v-if="confirmationMessage" class="confirmation-message">
       {{ confirmationMessage }}
@@ -32,35 +33,41 @@
 
 <script>
 export default {
-  name: 'HomeHelp',
+  name: 'Cours',
   data() {
     return {
+      courses: [
+        {
+          id: 1,
+          name: 'Apprendre a utiliser internet et la technologie correctement',
+          time: 'Samedi matin 9h-12h'
+        },
+        {
+          id: 2,
+          name: 'Rester au courant des nouvelle technologie',
+          time: 'Samedi après-midi 14h-17h'
+        }
+      ],
       form: {
         name: '',
-        address: '',
-        date: '',
-        time: ''
+        course: ''
       },
       confirmationMessage: ''
     }
   },
   methods: {
     submitForm() {
-      // Ici, nous pourrions envoyer les données à un serveur via une API
-      // Pour cet exemple, nous allons simplement afficher un message de confirmation
-      this.confirmationMessage = `Merci, ${this.form.name}. Votre rendez-vous a été pris pour le ${this.form.date} à ${this.form.time} à l'adresse ${this.form.address}.`
+      this.confirmationMessage = `Merci, ${this.form.name}. Vous avez réservé le ${this.form.course}.`
       // Réinitialiser le formulaire
       this.form.name = ''
-      this.form.address = ''
-      this.form.date = ''
-      this.form.time = ''
+      this.form.course = ''
     }
   }
 }
 </script>
 
 <style scoped>
-.home-help {
+.cours {
   font-family: Arial, sans-serif;
   margin: 20px;
   padding: 20px;
@@ -69,31 +76,32 @@ export default {
   background-color: #f9f9f9;
 }
 
-.home-help h1 {
+.cours h1 {
   color: #333;
 }
 
-.home-help form {
+.cours form {
   display: flex;
   flex-direction: column;
 }
 
-.home-help div {
+.cours div {
   margin-bottom: 10px;
 }
 
-.home-help label {
+.cours label {
   margin-bottom: 5px;
 }
 
-.home-help input {
+.cours input,
+.cours select {
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.home-help button {
+.cours button {
   padding: 10px;
   font-size: 16px;
   color: #fff;
@@ -103,7 +111,7 @@ export default {
   cursor: pointer;
 }
 
-.home-help button:hover {
+.cours button:hover {
   background-color: #0056b3;
 }
 
