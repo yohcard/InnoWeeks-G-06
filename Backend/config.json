@@ -1,0 +1,9 @@
+{
+  "database": "db_Test_Associate",
+  "username": "root",
+  "password": "root",
+  "host": "localhost",
+  "port": "6033",
+  "dialect": "mysql",
+  "logging": false
+}
