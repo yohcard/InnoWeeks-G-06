@@ -49,6 +49,28 @@ const _T_Utilisateur = (sequelize, DataTypes) => {
           },
         },
       },
+      utiAdresse_Mail: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        unique: {
+          msg: "Cette adresse e-mail est déjà utilisée.",
+        },
+        validate: {
+          isEmail: {
+            msg: "Veuillez fournir une adresse e-mail valide.",
+          },
+          notEmpty: {
+            msg: "L'adresse e-mail ne peut pas être vide.",
+          },
+          notNull: {
+            msg: "L'adresse e-mail est une propriété obligatoire.",
+          },
+          len: {
+            args: [0, 50],
+            msg: "L'adresse e-mail doit contenir au maximum 50 caractères.",
+          },
+        },
+      },
       utiPseudo: {
         type: DataTypes.STRING(50),
         allowNull: false,
@@ -100,6 +122,18 @@ const _T_Utilisateur = (sequelize, DataTypes) => {
           },
         },
       },
+      utiLogged: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: "Le rôle Log ne peut pas être vide",
+          },
+          notNull: {
+            msg: "Le rôle Log de points est une propriété obligatoire.",
+          },
+        },
+      },
       utiPoints: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -109,6 +143,15 @@ const _T_Utilisateur = (sequelize, DataTypes) => {
           },
           notNull: {
             msg: "Le nombre de points est une propriété obligatoire.",
+          },
+        },
+      },
+      utiLogCode: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        validate: {
+          notEmpty: {
+            msg: "Le nombre de points ne peut pas être vide",
           },
         },
       },

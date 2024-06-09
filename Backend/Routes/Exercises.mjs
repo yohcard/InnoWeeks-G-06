@@ -1,6 +1,7 @@
 import { Op } from "sequelize";
 import { models } from "../Db/sequelize.mjs";
-import { auth } from "../Auth/auth.mjs";
+import { auth, AuthAdmin } from "../Auth/auth.mjs";
+
 import express from "express";
 
 const ExerciseRouter = express();
@@ -16,11 +17,12 @@ ExerciseRouter.get("/", auth, async (req, res) => {
   }
 });
 
-ExerciseRouter.get("/:id", async (req, res) => {
+ExerciseRouter.get("/:id", auth, async (req, res) => {
   const ExerciseId = req.params.id;
   try {
     if (!ExerciseId) {
-      const message = "L'id de l'exercice n'existe pas";
+      const message =
+        "L'id de l'exercice n'existe pas. Merci de réessayer avec un autre identifiant.";
       res.status(404).json({ msg: message });
     }
     const getExercise = await models.T_Exercice.findByPk(ExerciseId);
@@ -32,7 +34,7 @@ ExerciseRouter.get("/:id", async (req, res) => {
   }
 });
 
-ExerciseRouter.get("/title/:title", async (req, res) => {
+ExerciseRouter.get("/title/:title", auth, async (req, res) => {
   const Exetitle = req.params.title;
   try {
     const getExercises = await models.T_Exercice.findAll({
@@ -55,17 +57,9 @@ ExerciseRouter.get("/title/:title", async (req, res) => {
   }
 });
 
-ExerciseRouter.post("/", async (req, res) => {
+ExerciseRouter.post("/", AuthAdmin, async (req, res) => {
   const { exeTitre, exeDescription } = req.body;
   try {
-    if (!exeTitre) {
-      const message = "Le titre ne peut pas être null";
-      return res.status(400).json({ msg: message });
-    }
-    if (!exeDescription) {
-      const message = "La description ne peut pas être null";
-      return res.status(400).json({ msg: message });
-    }
     const BodyData = {
       exeTitre,
       exeDescription,
@@ -79,7 +73,7 @@ ExerciseRouter.post("/", async (req, res) => {
   }
 });
 
-ExerciseRouter.put("/:id", async (req, res) => {
+ExerciseRouter.put("/:id", AuthAdmin, async (req, res) => {
   const ExerciseId = req.params.id;
   const { exeTitre, exeDescription } = req.body;
   try {
@@ -113,7 +107,7 @@ ExerciseRouter.put("/:id", async (req, res) => {
   }
 });
 
-ExerciseRouter.delete("/:id", async (req, res) => {
+ExerciseRouter.delete("/:id", AuthAdmin, async (req, res) => {
   const ExerciseId = req.params.id;
   try {
     if (!ExerciseId) {
@@ -134,4 +128,5 @@ ExerciseRouter.delete("/:id", async (req, res) => {
     res.status(500).json({ msg: message, data: error });
   }
 });
+
 export { ExerciseRouter };

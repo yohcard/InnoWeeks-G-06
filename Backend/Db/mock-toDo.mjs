@@ -24,31 +24,6 @@ const toDos = [
     exeId: 1,
     faiReussi: true,
   },
-  {
-    utiId: 6,
-    exeId: 1,
-    faiReussi: false,
-  },
-  {
-    utiId: 7,
-    exeId: 1,
-    faiReussi: true,
-  },
-  {
-    utiId: 8,
-    exeId: 1,
-    faiReussi: false,
-  },
-  {
-    utiId: 9,
-    exeId: 1,
-    faiReussi: true,
-  },
-  {
-    utiId: 10,
-    exeId: 1,
-    faiReussi: false,
-  },
 ];
 
 export { toDos };

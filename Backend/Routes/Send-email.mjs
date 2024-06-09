@@ -2,11 +2,11 @@ import { auth } from "../Auth/auth.mjs";
 import express from "express";
 import { mailjetClient } from "../Auth/api_key.mjs";
 
-const EmailRouter = express.Router();
+const EmailRouter = express();
 const EntrepriseMail = "pv20qck@eduvaud.ch";
 
-EmailRouter.post("/", async (req, res) => {
-  const { userMail, username, subject, message } = req.body;
+EmailRouter.post("/", auth, async (req, res) => {
+  const { userMail, subject, message } = req.body;
   if (!userMail || !username || !subject || !message) {
     return res.status(400).json({
       error: "All fields are required: userEmail, userName, subject, message",
@@ -18,12 +18,10 @@ EmailRouter.post("/", async (req, res) => {
       {
         From: {
           Email: userMail,
-          Name: username,
         },
         To: [
           {
             Email: EntrepriseMail,
-            Name: "App_Tuto",
           },
         ],
         Subject: subject,

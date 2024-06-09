@@ -1,13 +1,20 @@
 import { initDb, sequelize } from "./Db/sequelize.mjs";
 import express from "express";
-//import dotenv from "dotenv";
-const port = 3901;
-const app = express();
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
+const port = process.env.BACKEND_PORT;
+const app = express();
+console.log(port);
 //Lecture des documents json
 app.use(express.json());
 
-//dotenv.config();
+var corsOptions = {
+  origin: `http://localhost:5173`,
+  optionsSuccessStatus: 200, // For legacy browser support
+};
+app.use(cors(corsOptions));
 
 //Connexion db
 sequelize
@@ -25,6 +32,10 @@ app.get("/", (req, res) => {
 //Importation des routes exercices
 import { ExerciseRouter } from "./Routes/Exercises.mjs";
 app.use("/api/exercises", ExerciseRouter);
+
+//Importation des routes prerequisite
+import { PrerequisitesRouter } from "./Routes/Prerequisites.mjs";
+app.use("/api/prerequisite", PrerequisitesRouter);
 
 //Importation des routes log
 import { logRouter } from "./Routes/Log.mjs";

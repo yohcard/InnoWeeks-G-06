@@ -9,6 +9,26 @@ const _T_Prerequis = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true,
       },
+      preTitre: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        validate: {
+          is: {
+            args: /^[A-Za-z0-9\s]/,
+            msg: "Seules les lettres, les chiffres et les espaces sont autorisées.",
+          },
+          notEmpty: {
+            msg: "Le titre ne peut pas être vide",
+          },
+          notNull: {
+            msg: "Le titre est une propriété obligatoire.",
+          },
+          len: {
+            args: [0, 50],
+            msg: "Le titre doit contenir au maximum 60 caractères.",
+          },
+        },
+      },
       preNb_Points: {
         type: DataTypes.INTEGER,
         allowNull: false,

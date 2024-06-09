@@ -1,13 +1,25 @@
 import { Sequelize, DataTypes } from "sequelize";
 import bcrypt from "bcrypt";
 import { initModels } from "../Models/init-models.mjs";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const sequelize = new Sequelize("db_Test_Associate", "root", "root", {
-  host: "localhost",
-  port: "6033",
-  dialect: "mysql",
-  logging: false,
-});
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
+const sequelize = new Sequelize(
+  process.env.DATABASE_NAME,
+  process.env.DATABASE_USER,
+  process.env.DATABASE_PASSWORD,
+  {
+    host: process.env.DATABASE_HOST,
+    port: process.env.DATABASE_PORT,
+    dialect: process.env.DATABASE_DIALECT,
+    logging: false,
+  }
+);
 const models = initModels(sequelize);
 
 //Importation des mocks
@@ -23,10 +35,13 @@ const importUsers = async () => {
       const createdUser = await models.T_Utilisateur.create({
         utiPrenom: user.utiPrenom,
         utiNom: user.utiNom,
+        utiAdresse_Mail: user.utiAdresse_Mail,
         utiPseudo: user.utiPseudo,
         utiMdp: hash,
         utiAdmin: user.utiAdmin,
+        utiLogged: user.utiLogged,
         utiPoints: user.utiPoints,
+        utiLogCode: user.utiLogCode,
       });
       console.log("Utilisateur créé:", createdUser.toJSON());
     } catch (error) {
@@ -75,6 +90,7 @@ const importPrerequisites = async () => {
     try {
       const createPrerequisite = await models.T_Prerequis.create({
         preId: prerequisite.preId,
+        preTitre: prerequisite.preTitre,
         preDescription: prerequisite.preDescription,
         preMessage_Rate: prerequisite.preMessage_Rate,
         preMessage_Reussi: prerequisite.preMessage_Reussi,
