@@ -1,9 +1,16 @@
 import { auth } from "../Auth/auth.mjs";
 import express from "express";
 import { mailjetClient } from "../Auth/api_key.mjs";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 const EmailRouter = express();
-const EntrepriseMail = "pv20qck@eduvaud.ch";
+const EntrepriseMail = process.env.ENTRENPRISE_MAIL;
 
 EmailRouter.post("/", auth, async (req, res) => {
   const { userMail, subject, message } = req.body;
