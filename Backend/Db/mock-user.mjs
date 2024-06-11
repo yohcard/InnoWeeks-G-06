@@ -59,6 +59,18 @@ const users = [
     utiPoints: 500,
     utiLogCode: 44568,
   },
+  {
+    utiId: 6,
+    utiPrenom: "Dario",
+    utiNom: "Chasi",
+    utiAdresse_Mail: "dariojchs@gmail.com",
+    utiPseudo: "darchasi",
+    utiMdp: "password",
+    utiAdmin: true,
+    utiLogged: false,
+    utiPoints: 500,
+    utiLogCode: 44568,
+  },
 ];
 
 export { users };

@@ -41,9 +41,13 @@ app.use("/api/prerequisite", PrerequisitesRouter);
 import { logRouter } from "./Routes/Log.mjs";
 app.use("/api/login", logRouter);
 
-//Importation des routes log
+//Importation des routes emails
 import { EmailRouter } from "./Routes/Send-email.mjs";
 app.use("/api/emails", EmailRouter);
+
+//Importation des routes emails
+import { DoItRouter } from "./Routes/DoIt.mjs";
+app.use("/api/doit", DoItRouter);
 
 // Si aucune route ne correspondant à l'URL demandée par le consommateur
 app.use(({ req, res }) => {

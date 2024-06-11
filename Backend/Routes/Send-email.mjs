@@ -1,6 +1,6 @@
 import { auth } from "../Auth/auth.mjs";
 import express from "express";
-import { mailjetClient } from "../Auth/api_key.mjs";
+import mailjet from "node-mailjet";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -9,14 +9,27 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
-const EmailRouter = express();
-const EntrepriseMail = process.env.ENTRENPRISE_MAIL;
 
-EmailRouter.post("/", auth, async (req, res) => {
-  const { userMail, subject, message } = req.body;
-  if (!userMail || !username || !subject || !message) {
+const EmailRouter = express();
+const mailjetClient = mailjet.apiConnect(
+  process.env.MAILJET_API_KEY,
+  process.env.MAILJET_API_SECRET
+);
+
+const contactEmail = "pv20qck@eduvaud.ch";
+
+export const sendEmail = async (req, res) => {
+  const { name, email, subject, message } = req.body;
+
+  if (!name || !email || !subject || !message) {
     return res.status(400).json({
-      error: "All fields are required: userEmail, userName, subject, message",
+      error: "All fields are required: name, email, subject, message",
+    });
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email) || !emailRegex.test(contactEmail)) {
+    return res.status(400).json({
+      error: "Invalid email address format for 'email' or 'contactEmail'",
     });
   }
 
@@ -24,30 +37,31 @@ EmailRouter.post("/", auth, async (req, res) => {
     Messages: [
       {
         From: {
-          Email: userMail,
+          Email: "pv20qck@eduvaud.ch",
+          Name: "Dario",
         },
         To: [
           {
-            Email: EntrepriseMail,
+            Email: "pv20qck@eduvaud.ch",
+            Name: "Dario",
           },
         ],
-        Subject: subject,
-        TextPart: message,
-        HTMLPart: `<p>${message}</p>`,
+        Subject: "Greetings from Mailjet.",
+        TextPart: "My first Mailjet email",
+        HTMLPart:
+          "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />May the delivery force be with you!",
+        CustomID: "AppGettingStartedTest",
       },
     ],
   });
-
-  try {
-    const result = await request;
-    res
-      .status(200)
-      .json({ message: "Email sent successfully", data: result.body });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to send email", error: error.message });
-  }
-});
+};
+request
+  .then((result) => {
+    console.log(result.body);
+  })
+  .catch((err) => {
+    console.log(err.statusCode);
+  });
+EmailRouter.post("/contact", auth, sendEmail);
 
 export { EmailRouter };

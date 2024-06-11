@@ -7,6 +7,7 @@ import { models } from "../Db/sequelize.mjs";
 import { fileURLToPath } from "url";
 import { auth, authUser } from "../Auth/auth.mjs";
 import { mailjetClient } from "../Auth/api_key.mjs";
+import { Op } from "sequelize";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,12 +20,13 @@ const EntrepriseMail = process.env.ENTRENPRISE_MAIL;
 const logRouter = express();
 
 logRouter.post("/", auth, async (req, res) => {
+  const { utiAdresse_Mail, utiMdp } = req.body;
   try {
     const user = await models.T_Utilisateur.findOne({
       where: {
-        [models.Sequelize.Op.or]: [
-          { utiPseudo: utiPseudo },
-          { utiAdresse_Mail: utiAdresse_mail },
+        [Op.or]: [
+          { utiPseudo: utiAdresse_Mail },
+          { utiAdresse_Mail: utiAdresse_Mail },
         ],
       },
     });
@@ -65,6 +67,7 @@ logRouter.post("/", auth, async (req, res) => {
             Subject: subject,
             TextPart: messageSend + code,
             HTMLPart: `<p>${messageSend + code}</p>`,
+            CustomID: "AppGettingStartedTest",
           },
         ],
       });
@@ -93,18 +96,18 @@ logRouter.post("/code", auth, async (req, res) => {
       },
     });
 
-    const { userCode } = req.body;
+    const { utiLogCode } = req.body;
     if (!user) {
       const message = `L'utilisateur demandé n'existe pas`;
       return res.status(404).json({ msg: message });
     }
-    if (!userCode) {
+    if (!utiLogCode) {
       const message = `Aucun code fourni`;
       return res.status(400).json({ msg: message });
     }
     const Code = user.utiLogCode;
 
-    if (Code != userCode) {
+    if (Code != utiLogCode) {
       const message = `Le code est incorrecte.`;
       return res.status(401).json({ msg: message });
     } else {
