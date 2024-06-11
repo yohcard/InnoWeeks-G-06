@@ -47,7 +47,8 @@ const authUser = async (req, res, next) => {
   try {
     const decodedToken = jwt.verify(token, privatekey);
     const utiId = decodedToken.utiId;
-    if (req.body.utiId !== utiId) {
+    const isAdmin = decodedToken.utiAdmin;
+    if (!isAdmin && req.body.utiId && req.body.utiId !== utiId) {
       const message = `L'identifiant de l'utisateur est invalide`;
       return res.status(401).json({ message });
     }
