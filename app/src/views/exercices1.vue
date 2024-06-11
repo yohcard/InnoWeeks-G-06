@@ -55,7 +55,27 @@ const login = () => {
     alert('Connexion réussie !')
     router.value.push('/exercices2')
   } else {
-    alert("Nom d'utilisateur ou mot de passe incorrect.")
+    if (password.value !== expectedPassword) {
+      if (password.value.toLowerCase() === expectedPassword.toLowerCase()) {
+        alert(
+          "Nom d'utilisateur ou mot de passe incorrect.\n\nJe vais vous aider à vous connecter.\n\nConseil :\n\nil y a une erreur de majuscule dans le mot de passe."
+        )
+      } else {
+        alert(
+          "Nom d'utilisateur ou mot de passe incorrect.\n\nJe vais vous aider à vous connecter.\n\nConseil :\n\nil y a une erreur dans le mot de passe."
+        )
+      }
+    } else if (username.value !== expectedUsername) {
+      if (username.value.toLowerCase() === expectedUsername.toLowerCase()) {
+        alert(
+          "Nom d'utilisateur ou mot de passe incorrect.\n\nJe vais vous aider à vous connecter.\n\nConseil :\n\nil y a une erreur de majuscule dans le nom d'utilisateur."
+        )
+      } else {
+        alert(
+          "Nom d'utilisateur ou mot de passe incorrect.\n\nJe vais vous aider à vous connecter.\n\nConseil :\n\nil y a une erreur dans le nom d'utilisateur."
+        )
+      }
+    }
   }
 }
 </script>
