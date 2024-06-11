@@ -10,3 +10,5 @@ npm install mysql2
 npx sequelize-auto -h localhost -d db_Test_Associate -u root -x root -p 6033 --dialect mysql -c ./config.json -o ./Models
 
 Le résultat est en CommonJS, si le travail est effectué en ES modules il faudra adapter le code
+
+https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2

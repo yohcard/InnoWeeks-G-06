@@ -132,7 +132,7 @@ PrerequisitesRouter.put("/:id", AuthAdmin, async (req, res) => {
         .json({ msg: "Aucune modification n'a été apportée au prérequis." });
     }
 
-    const updatedPrerequisite = await models.T_Exercice.findByPk(
+    const updatedPrerequisite = await models.T_Prerequis.findByPk(
       PrerequisiteId
     );
     res.json({
