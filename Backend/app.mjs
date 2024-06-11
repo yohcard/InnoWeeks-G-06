@@ -49,6 +49,10 @@ app.use("/api/emails", EmailRouter);
 import { DoItRouter } from "./Routes/DoIt.mjs";
 app.use("/api/doit", DoItRouter);
 
+//Importation des utilisateurs
+import { UsersRouter } from "./Routes/Users.mjs";
+app.use("/api/users", UsersRouter);
+
 // Si aucune route ne correspondant à l'URL demandée par le consommateur
 app.use(({ req, res }) => {
   const message =

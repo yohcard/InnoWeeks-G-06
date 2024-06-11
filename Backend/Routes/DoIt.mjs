@@ -1,6 +1,7 @@
 import { models } from "../Db/sequelize.mjs";
 import { authUser, AuthAdmin } from "../Auth/auth.mjs";
 import { Op } from "sequelize";
+import express from "express";
 const DoItRouter = express();
 
 DoItRouter.get("/", authUser, async (req, res) => {
