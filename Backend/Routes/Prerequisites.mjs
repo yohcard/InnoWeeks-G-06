@@ -153,7 +153,7 @@ PrerequisitesRouter.delete("/:id", AuthAdmin, async (req, res) => {
       return res.status(404).json({ msg: message });
     }
     const deletePrerequisite = await models.T_Prerequis.destroy({
-      where: { preId: deletePrerequisite },
+      where: { preId: PrerequisiteId },
     });
     if (deletePrerequisite === 0) {
       const message = "Aucun prérequis n'a été supprimé.";

@@ -27,6 +27,8 @@ import { users } from "./mock-user.mjs";
 import { toDos } from "./mock-toDo.mjs";
 import { exercises } from "./mock-exercise.mjs";
 import { prerequisites } from "./mock-prerequisites.mjs";
+import { belongs } from "./mock-belong.mjs";
+import { effects } from "./mock-effect.mjs";
 
 const importUsers = async () => {
   for (const user of users) {
@@ -85,6 +87,47 @@ const importExercises = async () => {
   }
 };
 
+const importBelongs = async () => {
+  for (const belong of belongs) {
+    try {
+      const createBelong = await models.T_Appartenir.create({
+        exeId: belong.exeId,
+        preId: belong.preId,
+      });
+      console.log(
+        "Création de rélation entre exercices et prérequis: ",
+        createBelong.toJSON()
+      );
+    } catch (error) {
+      console.error(
+        "Erreur lors de la création de la rélation entre exercices et prérequis:",
+        error
+      );
+    }
+  }
+};
+
+const importEffects = async () => {
+  for (const effect of effects) {
+    try {
+      const createEffect = await models.T_Effectue.create({
+        utiId: effect.utiId,
+        preId: effect.preId,
+        effReussi: effect.effReussi,
+      });
+      console.log(
+        "Création de rélation entre utilisateurs et prérequis: ",
+        createEffect.toJSON()
+      );
+    } catch (error) {
+      console.error(
+        "Erreur lors de la création de la rélation entre utilisateurs et prérequis:",
+        error
+      );
+    }
+  }
+};
+
 const importPrerequisites = async () => {
   for (const prerequisite of prerequisites) {
     try {
@@ -95,8 +138,6 @@ const importPrerequisites = async () => {
         preMessage_Rate: prerequisite.preMessage_Rate,
         preMessage_Reussi: prerequisite.preMessage_Reussi,
         preNb_Points: prerequisite.preNb_Points,
-        preReussi: prerequisite.preReussi,
-        exeId: prerequisite.exeId,
       });
       console.log("Prérequis créé: ", createPrerequisite.toJSON());
     } catch (error) {
@@ -111,6 +152,8 @@ let initDb = async () => {
     await importExercises();
     await importToDos();
     await importPrerequisites();
+    await importBelongs();
+    await importEffects();
     console.log("La base de données a bien été synchronisée:");
   } catch (error) {
     console.error("Erreur lors de l'importation des données:", error);

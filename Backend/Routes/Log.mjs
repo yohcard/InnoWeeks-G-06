@@ -7,7 +7,6 @@ import { models } from "../Db/sequelize.mjs";
 import { fileURLToPath } from "url";
 import { auth, authUser } from "../Auth/auth.mjs";
 import mailjet from "node-mailjet";
-//import { mailjetClient } from "../Auth/api_key.mjs";
 import { Op } from "sequelize";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,6 +23,56 @@ const EntrepriseMail = process.env.ENTRENPRISE_MAIL2;
 const logRouter = express();
 
 logRouter.post("/", auth, async (req, res) => {
+  const { utiAdresse_Mail, utiMdp } = req.body;
+  try {
+    const user = await models.T_Utilisateur.findOne({
+      where: {
+        [Op.or]: [
+          { utiPseudo: utiAdresse_Mail },
+          { utiAdresse_Mail: utiAdresse_Mail },
+        ],
+      },
+    });
+
+    if (!user) {
+      const message = `L'utilisateur demandé n'existe pas`;
+      return res.status(404).json({ msg: message });
+    }
+
+    const isPasswordValid = await bcrypt.compare(utiMdp, user.utiMdp);
+
+    if (!isPasswordValid) {
+      const message = `Le mot de passe est incorrect.`;
+      return res.status(401).json({ msg: message });
+    } else {
+      let code = 0;
+      for (let i = 0; i < 6; i++) {
+        let character = Math.floor(Math.random() * 10);
+        code = code * 10 + character;
+      }
+      user.utiLogCode = code;
+      await user.save();
+      const token = jwt.sign(
+        {
+          utiId: user.utiId,
+          utiAdmin: user.utiAdmin,
+          utiLogged: user.utiLogged,
+        },
+        privatekey,
+        {
+          expiresIn: "1y",
+        }
+      );
+      const message = `L'utilisateur a été connecté avec succès`;
+      return res.json({ msg: message, data: user, token });
+    }
+  } catch (error) {
+    const message = `L'utilisateur n'a pas pu être connecté. Réessayez dans quelques instants`;
+    res.status(500).json({ msg: message, data: error.message });
+  }
+});
+
+logRouter.post("/in", auth, async (req, res) => {
   const { utiAdresse_Mail, utiMdp } = req.body;
 
   const user = await models.T_Utilisateur.findOne({

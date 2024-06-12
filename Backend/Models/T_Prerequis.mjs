@@ -81,18 +81,6 @@ const _T_Prerequis = (sequelize, DataTypes) => {
           },
         },
       },
-      preReussi: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: "Le preReussi du prérequis ne peut pas être vide",
-          },
-          notNull: {
-            msg: "Le preReussi du prérequis est une propriété obligatoire.",
-          },
-        },
-      },
       preDescription: {
         type: DataTypes.STRING(150),
         allowNull: false,
@@ -113,22 +101,6 @@ const _T_Prerequis = (sequelize, DataTypes) => {
           },
         },
       },
-      exeId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: "T_Exercice",
-          key: "exeId",
-        },
-        validate: {
-          notEmpty: {
-            msg: "Le exeId du prérequis ne peut pas être vide",
-          },
-          notNull: {
-            msg: "Le exeId du prérequis est une propriété obligatoire.",
-          },
-        },
-      },
     },
     {
       sequelize,
@@ -140,11 +112,6 @@ const _T_Prerequis = (sequelize, DataTypes) => {
           unique: true,
           using: "BTREE",
           fields: [{ name: "preId" }],
-        },
-        {
-          name: "exeId",
-          using: "BTREE",
-          fields: [{ name: "exeId" }],
         },
       ],
     }

@@ -39,7 +39,7 @@ app.use("/api/prerequisite", PrerequisitesRouter);
 
 //Importation des routes log
 import { logRouter } from "./Routes/Log.mjs";
-app.use("/api/login", logRouter);
+app.use("/api/log", logRouter);
 
 //Importation des routes emails
 import { EmailRouter } from "./Routes/Send-email.mjs";
