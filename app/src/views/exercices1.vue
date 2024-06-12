@@ -13,6 +13,8 @@
       </div>
       <div v-else><button @click="toggleLoginForm">Commencer</button></div>
     </transition>
+
+    <div></div>
   </div>
 </template>
 
@@ -31,13 +33,25 @@
 </style>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-Router'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const isLoginFormVisible = ref(false)
 const username = ref('')
 const password = ref('')
 const router = useRouter()
+import Tutoservices from '@/services/Tutoservices'
+const exercices = ref(null)
+
+onMounted(() => {
+  Tutoservices.getExercises()
+    .then((response) => {
+      exercices.value = response.data.data
+    })
+    .catch((error) => {
+      console.log(error.message)
+    })
+})
 
 const toggleLoginForm = () => {
   alert(

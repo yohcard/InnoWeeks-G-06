@@ -17,10 +17,10 @@ const mailjetClient = mailjet.apiConnect(
   process.env.MAILJET_API_KEY2,
   process.env.MAILJET_API_SECRET2
 );
-const privatekey = process.env.PRIVATE_KEY;
 const EntrepriseMail = process.env.ENTRENPRISE_MAIL2;
 */
 const logRouter = express();
+const privatekey = process.env.PRIVATE_KEY;
 
 logRouter.post("/", auth, async (req, res) => {
   const { utiAdresse_Mail, utiMdp } = req.body;
@@ -203,10 +203,10 @@ logRouter.get("/public-token", async (req, res) => {
       expiresIn: "1d",
     });
 
-    res.json({ token });
+    res.json({ data: token });
   } catch (error) {
     const message = "Erreur lors de la création du token";
-    res.status(500).json({ msg: message, data: error });
+    res.status(500).json({ msg: message, data: error.message });
   }
 });
 

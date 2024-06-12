@@ -12,7 +12,7 @@ app.use(express.json());
 
 var corsOptions = {
   origin: `http://localhost:5173`,
-  optionsSuccessStatus: 200, // For legacy browser support
+  optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 
@@ -25,7 +25,7 @@ sequelize
   });
 initDb();
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.send("Api REST trouvé");
 });
 

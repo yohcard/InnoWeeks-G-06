@@ -1,59 +1,35 @@
 <script setup>
-import { RouterLink, RouterView, useRoute  } from 'vue-router'
-import homeView from '../components/homeComponents.vue'
-import TheHeader from '../components/TheHeader.vue'
-import TheFooter from '../components/TheFooter.vue'
-import home from '../components/home.vue'
+import homeComponents from '../components/homeComponents.vue'
+import homePage from '../components/homePage.vue'
+import Tutoservices from '@/services/Tutoservices'
+import { ref, onMounted } from 'vue'
+const token = ref(null)
 
-const route = useRoute()
+onMounted(() => {
+  Tutoservices.loginPublic()
+    .then((response) => {
+      token.value = response.data.data
+      localStorage.setItem('jwt', response.data.data)
+    })
+    .catch((error) => {
+      console.log(error.message)
+    })
+})
 </script>
 
-<template >
-    
+<template>
   <div class="mainPage">
-    <header>
-      <TheHeader/>
-    </header>
-    <div class="main">
-        <div >
-        <RouterView/>
-      </div>
-    </div>
-    <div class="TheFooter">
-      <TheFooter/>
-    </div>
+    <homeComponents />
+    <homePage />
   </div>
 </template>
 
 <style scoped>
-header {
-  width: 200%;
-  height: 50px;
-  padding: 2px;
-  display: flex;
-  margin: 1%;
-  justify-content: left;
-  background-color: #333; 
-}
-
-.main {
-  width: 200%;
-  height: auto;
-  display: grid;
-  
-}
-
-.TheFooter{
-    width: 140%;
-    text-align: center;
-}
-.divRouterView {
-  padding: 0%;
-  margin: 0%;
-}
-
 .mainPage {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
   width: 100%;
-  height: 80%;
+  margin: auto;
 }
 </style>

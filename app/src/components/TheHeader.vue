@@ -1,64 +1,71 @@
 <template>
-  <div class="container">
-    <div class="logo">
-      <img src="../assets/logo.png" alt="Logo" />
+  <header>
+    <div class="container">
+      <div class="logo">
+        <img src="../assets/logo.svg" alt="Logo" />
+      </div>
+      <nav v-if="isAuthenticated">
+        <RouterLink :to="{ name: 'home' }">Accueil</RouterLink>
+        <RouterLink :to="{ name: 'exercices1' }">Exercices</RouterLink>
+        <RouterLink :to="{ name: 'video' }">Video</RouterLink>
+        <RouterLink :to="{ name: 'contact' }">Contact</RouterLink>
+      </nav>
     </div>
-    <nav class="navigation">
-      <ul>
-        <li><router-link to="/">Accueil</router-link></li>
-        <li><router-link to="/exercices">exercices</router-link></li>
-        <li><router-link to="/video">video</router-link></li>
-        <li><router-link to="/contact">Contact</router-link></li>
-      </ul>
-    </nav>
-  </div>
+  </header>
 </template>
 
-<script>
-export default {
-  name: 'TheHeader'
-}
+<script setup>
+import { RouterLink } from 'vue-router'
+import { onUpdated } from 'vue'
+import { isAuthenticated } from '../auth.js'
+
+onUpdated(() => {})
 </script>
 
 <style scoped>
-.header {
-  background-color: #333;
-  color: #fff;
-  width: 1000%;
+header {
+  width: 100%;
+  background-color: lightgrey;
 }
 
 .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+  color: #fff;
 }
 
 .logo img {
-  max-height: 50px;
+  max-height: 50px; /* Ajusta la altura máxima de la imagen */
 }
 
-.navigation ul {
-  list-style: none;
+nav {
   display: flex;
-  gap: 4rem;
+  gap: 15px;
 }
 
-.navigation ul li {
-  margin: 0;
-}
-
-.navigation ul li a {
-  color: #fff;
+nav a {
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  color: rgb(0, 86, 126);
   text-decoration: none;
-  padding: 1rem 1rem;
-  transition: background 0.3s;
+  padding: 5px 10px;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
-.navigation ul li a:hover {
-  background: #555;
+nav a.router-link-exact-active {
+  color: #070068;
+}
+
+nav a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #0084b8;
   border-radius: 4px;
 }
 </style>
