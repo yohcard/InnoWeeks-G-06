@@ -4,11 +4,11 @@ import dotenv from "dotenv";
 import path from "path";
 import jwt from "jsonwebtoken";
 import { models } from "../Db/sequelize.mjs";
-import { fileURLToPath } from "url";
 import { auth, authUser } from "../Auth/auth.mjs";
-import mailjet from "node-mailjet";
 import { Op } from "sequelize";
-
+/*
+import mailjet from "node-mailjet";
+import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -19,7 +19,7 @@ const mailjetClient = mailjet.apiConnect(
 );
 const privatekey = process.env.PRIVATE_KEY;
 const EntrepriseMail = process.env.ENTRENPRISE_MAIL2;
-
+*/
 const logRouter = express();
 
 logRouter.post("/", auth, async (req, res) => {
@@ -71,7 +71,7 @@ logRouter.post("/", auth, async (req, res) => {
     res.status(500).json({ msg: message, data: error.message });
   }
 });
-
+/*
 logRouter.post("/in", auth, async (req, res) => {
   const { utiAdresse_Mail, utiMdp } = req.body;
 
@@ -141,7 +141,7 @@ logRouter.post("/in", auth, async (req, res) => {
     }
   }
 });
-
+*/
 logRouter.post("/code", auth, async (req, res) => {
   const { utiAdresse_Mail, utiLogCode } = req.body;
   try {

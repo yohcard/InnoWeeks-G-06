@@ -110,9 +110,27 @@ ExerciseRouter.put("/:id", AuthAdmin, async (req, res) => {
 ExerciseRouter.delete("/:id", AuthAdmin, async (req, res) => {
   const ExerciseId = req.params.id;
   try {
-    if (!ExerciseId) {
+    const Exercise = await models.T_Exercice.findByPk(ExerciseId);
+    if (!Exercise) {
       const message = "L'id de l'exercice n'existe pas";
       return res.status(404).json({ msg: message });
+    }
+    const exeDoit = await models.T_Faire.findAll({
+      where: { exeId: Exercise.exeId },
+    });
+    console.log(exeDoit);
+    if (exeDoit.length === 0) {
+      const message = `Aucune liaison trouvé.`;
+      return res.status(200).json({ msg: message });
+    }
+    const exerciseIds = await exeDoit.map((faire) => faire.exeId);
+
+    const deleteExercises = await models.T_Faire.destroy({
+      where: { exeId: exerciseIds },
+    });
+    if (deleteExercises.length === 0) {
+      const message = `Aucune liaison trouvé.`;
+      return res.status(200).json({ msg: message });
     }
     const deleteExercise = await models.T_Exercice.destroy({
       where: { exeId: ExerciseId },

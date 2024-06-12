@@ -23,13 +23,15 @@ const auth = async (req, res, next) => {
   try {
     const decodedToken = jwt.verify(token, privatekey);
     const utiId = decodedToken.utiId;
+    const isAdmin = decodedToken.utiAdmin;
+    const tokenType = decodedToken.type;
 
-    if (decodedToken.type !== "public" || req.body.utiId !== utiId) {
+    if (tokenType === "public" || utiId || isAdmin) {
+      next();
+    } else {
       const message = `L'identifiant de l'utilisateur est invalide.`;
       return res.status(401).json({ message });
     }
-
-    next();
   } catch (error) {
     const message = `L'utilisateur n'est pas autorisé à accéder à cette ressource.`;
     return res.status(401).json({ message, data: error });
@@ -95,6 +97,40 @@ const authDoit = async (req, res, next) => {
   }
 };
 
+const authEffect = async (req, res, next) => {
+  const authorizationHeader = req.headers.authorization;
+
+  if (!authorizationHeader) {
+    const message = `Vous n'avez par fourni de jeton d'authentification. Ajoutez-en un dnas l'en tête de la requête.`;
+    return res.status(401).json({ message });
+  }
+  const token = authorizationHeader.split(" ")[1];
+
+  try {
+    const decodedToken = jwt.verify(token, privatekey);
+    const utiId = decodedToken.utiId;
+    console.log("token " + utiId);
+    const effect = await models.T_Effectue.findByPk(utiId);
+    if (!effect) {
+      const message = `L'utilisateur n'a pas commencé le prérequis.`;
+      return res.status(401).json({ message });
+    }
+    const isAdmin = decodedToken.utiAdmin;
+    const id = req.body.utiId;
+    console.log(id);
+    console.log("token " + utiId);
+    if ((!isAdmin && id !== utiId) || decodedToken.type == "public") {
+      const message = `L'utilisateur n'est pas autorisé à accéder à cette ressource.`;
+      return res.status(401).json({ message });
+    }
+
+    next();
+  } catch (error) {
+    const message = `L'utilisateur n'est pas autorisé à accéder à cette resource.`;
+    return res.status(401).json({ message, data: error });
+  }
+};
+
 const AuthAdmin = async (req, res, next) => {
   const authorizationHeader = req.headers.authorization;
 
@@ -119,4 +155,4 @@ const AuthAdmin = async (req, res, next) => {
   }
 };
 
-export { auth, AuthAdmin, authUser, authDoit };
+export { auth, AuthAdmin, authUser, authDoit, authEffect };

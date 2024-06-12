@@ -40,11 +40,11 @@ app.use("/api/prerequisite", PrerequisitesRouter);
 //Importation des routes log
 import { logRouter } from "./Routes/Log.mjs";
 app.use("/api/log", logRouter);
-
+/*
 //Importation des routes emails
 import { EmailRouter } from "./Routes/Send-email.mjs";
 app.use("/api/emails", EmailRouter);
-
+*/
 //Importation des routes emails
 import { DoItRouter } from "./Routes/DoIt.mjs";
 app.use("/api/doit", DoItRouter);
@@ -52,6 +52,14 @@ app.use("/api/doit", DoItRouter);
 //Importation des utilisateurs
 import { UsersRouter } from "./Routes/Users.mjs";
 app.use("/api/users", UsersRouter);
+
+//Importation de belong
+import { BelongRouter } from "./Routes/Belongs.mjs";
+app.use("/api/belong", BelongRouter);
+
+//Importation de effectué
+import { EffectRouter } from "./Routes/Effect.mjs";
+app.use("/api/effect", EffectRouter);
 
 // Si aucune route ne correspondant à l'URL demandée par le consommateur
 app.use(({ req, res }) => {

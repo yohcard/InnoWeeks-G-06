@@ -111,7 +111,7 @@ UsersRouter.put("/:id", authUser, async (req, res) => {
   }
 });
 
-UsersRouter.delete("/:id", AuthAdmin, async (req, res) => {
+UsersRouter.delete("/:id", authUser, async (req, res) => {
   const UserId = req.params.id;
   try {
     if (!UserId) {

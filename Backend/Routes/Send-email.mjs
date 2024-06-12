@@ -1,4 +1,4 @@
-import { auth } from "../Auth/auth.mjs";
+/*import { auth } from "../Auth/auth.mjs";
 import express from "express";
 import mailjet from "node-mailjet";
 import dotenv from "dotenv";
@@ -68,5 +68,5 @@ export const sendEmail = async (req, res) => {
 };
 
 EmailRouter.post("/contact", auth, sendEmail);
-
+*/
 export { EmailRouter };

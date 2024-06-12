@@ -34,21 +34,21 @@ PrerequisitesRouter.get("/:id", auth, async (req, res) => {
 });
 
 PrerequisitesRouter.get("/title/:title", auth, async (req, res) => {
-  const Pretitle = req.params.title;
+  const preTitre = req.params.title;
   try {
     const getPrerequisites = await models.T_Prerequis.findAll({
       where: {
-        Pretitle: {
-          [Op.like]: `${Pretitle}%`,
+        preTitre: {
+          [Op.like]: `${preTitre}%`,
         },
       },
     });
     if (getPrerequisites.length === 0) {
-      const message = `Aucun exercice trouvé avec le titre commençant par '${Pretitle}'`;
+      const message = `Aucun exercice trouvé avec le titre commençant par '${preTitre}'`;
       return res.status(404).json({ msg: message });
     }
 
-    const message = `Les exercices dont le titre commence par '${Pretitle}' ont bien été récupérés`;
+    const message = `Les exercices dont le titre commence par '${preTitre}' ont bien été récupérés`;
     res.json({ msg: message, data: getPrerequisites });
   } catch (error) {
     const message = "Erreur lors de la récupération des données";
@@ -58,29 +58,19 @@ PrerequisitesRouter.get("/title/:title", auth, async (req, res) => {
 
 PrerequisitesRouter.post("/", AuthAdmin, async (req, res) => {
   const {
-    pretitle,
+    preTitre,
     preDescription,
     preNb_Points,
     preMessage_Reussi,
     preMessage_Rate,
-    preReussi,
-    exeId,
   } = req.body;
   try {
-    const ExerciseId = await models.T_Exercice.findByPk(exeId);
-    if (!ExerciseId) {
-      const message = "L'id de l'exercice n'existe pas";
-      return res.status(404).json({ msg: message });
-    }
-
     const BodyData = {
-      pretitle,
+      preTitre,
       preDescription,
       preNb_Points,
       preMessage_Reussi,
       preMessage_Rate,
-      preReussi,
-      exeId,
     };
     const newPrerequisite = await models.T_Prerequis.create(BodyData);
     const message = "Nouveau prérequis créé avec succès";
