@@ -2,7 +2,7 @@
   <div id="app">
     <transition name="fade">
       <div v-if="isLoginFormVisible" id="loginForm">
-        <h2>Connexion</h2>
+        <h2>Exercice de connexion</h2>
         <form @submit.prevent="login">
           <label for="username">Nom d'utilisateur :</label>
           <input v-model="username" type="text" id="username" name="username" /><br /><br />
@@ -13,6 +13,11 @@
       </div>
       <div v-else><button @click="toggleLoginForm">Commencer</button></div>
     </transition>
+  </div>
+  <div v-if="exe1" id="loginForm">
+    <a href="exercices2">
+      <button>aller à l'exercices 2</button>
+    </a>
   </div>
 </template>
 
@@ -38,6 +43,7 @@ const isLoginFormVisible = ref(false)
 const username = ref('')
 const password = ref('')
 const router = useRouter()
+const exe1 = ref(false)
 
 const toggleLoginForm = () => {
   alert(
@@ -53,6 +59,7 @@ const login = () => {
 
   if (username.value === expectedUsername && password.value === expectedPassword) {
     alert('Connexion réussie !')
+    exe1.value = true
     router.value.push('/exercices2')
   } else {
     if (password.value !== expectedPassword) {

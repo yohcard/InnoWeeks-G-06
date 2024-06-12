@@ -6,7 +6,7 @@
     <nav class="navigation">
       <ul>
         <li><router-link to="/">Accueil</router-link></li>
-        <li><router-link to="/exercices">exercices</router-link></li>
+        <li><router-link to="/exercices1">exercices</router-link></li>
         <li><router-link to="/video">video</router-link></li>
         <li><router-link to="/contact">Contact</router-link></li>
       </ul>
