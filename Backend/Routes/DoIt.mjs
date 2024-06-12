@@ -1,13 +1,13 @@
 import { models } from "../Db/sequelize.mjs";
-import { authUser, AuthAdmin } from "../Auth/auth.mjs";
+import { authDoit, AuthAdmin } from "../Auth/auth.mjs";
 import { Op } from "sequelize";
 import express from "express";
 const DoItRouter = express();
 
-DoItRouter.get("/", authUser, async (req, res) => {
+DoItRouter.get("/", AuthAdmin, async (req, res) => {
   try {
     const AllDoit = await models.T_Faire.findAll();
-    const message = "La liste des exercices éffectués: ";
+    const message = "La liste des liaisons: ";
     res.json({ msg: message, data: AllDoit });
   } catch (error) {
     const message = "Erreur lors de la récuperation des données";
@@ -15,8 +15,40 @@ DoItRouter.get("/", authUser, async (req, res) => {
   }
 });
 
-DoItRouter.get("/id", authUser, async (req, res) => {
-  const { exeId, utiId } = req.body;
+DoItRouter.get("/alluser", authDoit, async (req, res) => {
+  const { utiId } = req.body;
+  try {
+    const UtilisateurId = await models.T_Utilisateur.findByPk(utiId);
+    if (!UtilisateurId) {
+      const message = "L'id de l'utilisateur n'existe pas";
+      return res.status(404).json({ msg: message });
+    }
+
+    const userDoit = await models.T_Faire.findAll({
+      where: { utiId: UtilisateurId.utiId },
+    });
+    console.log(userDoit);
+    if (userDoit.length === 0) {
+      const message = `Aucune liaison trouvé.`;
+      return res.status(200).json({ msg: message });
+    }
+    const exerciseIds = await userDoit.map((faire) => faire.exeId);
+
+    const allDoit = await models.T_Exercice.findAll({
+      where: { exeId: exerciseIds },
+    });
+
+    console.log(allDoit);
+    const message = "La liste des liaisons: ";
+    res.json({ msg: message, data: allDoit });
+  } catch (error) {
+    const message = "Erreur lors de la récuperation des données";
+    res.status(500).json({ msg: message, data: error.message });
+  }
+});
+
+DoItRouter.get("/id", authDoit, async (req, res) => {
+  const { utiId, exeId } = req.body;
   try {
     const ExerciseId = await models.T_Exercice.findByPk(exeId);
     if (!ExerciseId) {
@@ -30,10 +62,11 @@ DoItRouter.get("/id", authUser, async (req, res) => {
     }
     const Doit = await models.T_Faire.findOne({
       where: {
-        [Op.and]: [{ utiId: UtilisateurId }, { exeId: ExerciseId }],
+        [Op.and]: [{ utiId: UtilisateurId.utiId }, { exeId: ExerciseId.exeId }],
       },
     });
-    const message = "Exercice éffectué: ";
+    console.log(Doit);
+    const message = "Exercice effectué: ";
     res.json({ msg: message, data: Doit });
   } catch (error) {
     const message = "Erreur lors de la récuperation des données";
@@ -41,8 +74,8 @@ DoItRouter.get("/id", authUser, async (req, res) => {
   }
 });
 
-DoItRouter.post("/", authUser, async (req, res) => {
-  const { utiId, exeId, faiReussi } = req.body;
+DoItRouter.post("/", authDoit, async (req, res) => {
+  const { utiId, exeId } = req.body;
   try {
     const ExerciseId = await models.T_Exercice.findByPk(exeId);
     if (!ExerciseId) {
@@ -54,9 +87,10 @@ DoItRouter.post("/", authUser, async (req, res) => {
       const message = "L'id de l'utilisateur n'existe pas";
       return res.status(404).json({ msg: message });
     }
-    const BodyData = { utiId, exeId, faiReussi };
+    const BodyData = { utiId, exeId, faiReussi: false };
     const newDoit = await models.T_Faire.create(BodyData);
-    const message = "Nouveau prérequis créé avec succès";
+    console.log(newDoit);
+    const message = "Nouvelle liaison effectué créé avec succès";
     res.json({ msg: message, data: newDoit });
   } catch (error) {
     const message = "Erreur lors de la récupération des données";
@@ -64,40 +98,48 @@ DoItRouter.post("/", authUser, async (req, res) => {
   }
 });
 
-DoItRouter.put("/update", AuthAdmin, async (req, res) => {
-  const { utiId, exeId, faiReussi } = req.body;
+DoItRouter.put("/update", authDoit, async (req, res) => {
+  const { utiId, exeId } = req.body;
   try {
-    const ExerciseId = await models.T_Exercice.findByPk(exeId);
-    if (!ExerciseId) {
+    const Exercise = await models.T_Exercice.findByPk(exeId);
+    if (!Exercise) {
       const message = "L'id de l'exercice n'existe pas";
       return res.status(404).json({ msg: message });
     }
-    const UtilisateurId = await models.T_Utilisateur.findByPk(utiId);
-    if (!UtilisateurId) {
+    const Utilisateur = await models.T_Utilisateur.findByPk(utiId);
+    if (!Utilisateur) {
       const message = "L'id de l'utilisateur n'existe pas";
       return res.status(404).json({ msg: message });
     }
 
-    const BodyData = { utiId, exeId, faiReussi };
+    const belongs = await models.T_Appartenir.findAll({
+      where: { exeId: exeId },
+    });
+
+    const allPreReussi = belongs.every((belongs) => belongs.preReussi === true);
+
+    const BodyData = { utiId, exeId, faiReussi: allPreReussi };
 
     const [UpdateDoit] = await models.T_Faire.update(BodyData, {
       where: {
-        [Op.and]: [{ utiId: UtilisateurId }, { exeId: ExerciseId }],
+        [Op.and]: [{ utiId: Utilisateur.utiId }, { exeId: Exercise.exeId }],
       },
     });
+
     if (UpdateDoit === 0) {
       return res
         .status(404)
-        .json({ msg: "Aucune modification n'a été apportée au prérequis." });
+        .json({ msg: "Aucune modification n'a été apportée à la liaison." });
     }
 
     const updatedDoit = await models.T_Faire.findOne({
       where: {
-        [Op.and]: [{ utiId: UtilisateurId }, { exeId: ExerciseId }],
+        [Op.and]: [{ utiId: Utilisateur.id }, { exeId: Exercise.id }],
       },
     });
+
     res.json({
-      msg: "Le prérequis a été mis à jour avec succès",
+      msg: "La liaison a été mise à jour avec succès",
       data: updatedDoit,
     });
   } catch (error) {
@@ -121,17 +163,17 @@ DoItRouter.delete("/id", AuthAdmin, async (req, res) => {
     }
     const deletedoit = await models.T_Prerequis.destroy({
       where: {
-        [Op.and]: [{ utiId: UtilisateurId }, { exeId: ExerciseId }],
+        [Op.and]: [{ utiId: UtilisateurId.utiId }, { exeId: ExerciseId.exeId }],
       },
     });
     if (deletedoit === 0) {
-      const message = "Aucun prérequis n'a été supprimé.";
+      const message = "Aucun liaison n'a été supprimé.";
       return res.status(404).json({ msg: message });
     }
-    const message = `L'exercice éffectué a bien été supprimé`;
+    const message = `La liaison a bien été supprimé`;
     return res.json({ msg: message, data: deletedoit });
   } catch (error) {
-    const message = "Erreur lors de la suppression du prérequis";
+    const message = "Erreur lors de la mise à jour des données";
     res.status(500).json({ msg: message, data: error });
   }
 });
