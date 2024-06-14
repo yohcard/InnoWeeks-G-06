@@ -2,7 +2,7 @@
   <div class="contact-form">
     <h1>
       Exercices <br />
-      Envoie d'un mail
+      Envois d'un mail
     </h1>
     <form @submit.prevent="submitForm">
       <div>
@@ -11,7 +11,7 @@
       </div>
       <div>
         <label for="text">Objet de votre mail :</label>
-        <input type="text" id="text" v-model="form.name" required />
+        <input type="text" id="text" v-model="form.text" required />
       </div>
       <div>
         <label for="message">Message :</label>
@@ -23,29 +23,52 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 export default {
-  data() {
-    return {
-      form: {
-        text: '',
-        email: '',
-        message: ''
+  setup() {
+    const form = ref({
+      email: '',
+      text: '',
+      message: ''
+    })
+
+    const router = useRouter()
+
+    const submitForm = () => {
+      const expectedEmail = 'distanataire@example.com'
+      const expectedText = 'objet execices deux'
+      const expectedMessage = 'Ceci est un message de d exemple pour l exercices deux.'
+
+      if (
+        form.value.email === expectedEmail &&
+        form.value.text === expectedText &&
+        form.value.message === expectedMessage
+      ) {
+        alert('Vous avez reussit l exercice 2 bien jouer !')
+
+        router.push('/exercices3')
+      } else {
+        if (form.value.email !== expectedEmail) {
+          alert(
+            "L'email du destinataire est incorrect.\n\nConseil : Assurez-vous que l'email correspond à test@example.com."
+          )
+        } else if (form.value.text !== expectedText) {
+          alert(
+            "L'objet de votre mail est incorrect.\n\nConseil : Assurez-vous que l'objet correspond à objet execices deux."
+          )
+        } else if (form.value.message !== expectedMessage) {
+          alert(
+            'Le message est incorrect.\n\nConseil : Assurez-vous que le message correspond à Ceci est un message de d exemple pour l exercices deux.'
+          )
+        }
       }
     }
-  },
-  methods: {
-    submitForm() {
-      // Traitement du formulaire
-      console.log('Nom:', this.form.text)
-      console.log('Email:', this.form.email)
-      console.log('Message:', this.form.message)
 
-      // Réinitialisation du formulaire
-      this.form.text = ''
-      this.form.email = ''
-      this.form.message = ''
-
-      alert('Votre message a été envoyé avec succès!')
+    return {
+      form,
+      submitForm
     }
   }
 }
