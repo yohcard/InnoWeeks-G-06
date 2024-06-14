@@ -30,12 +30,14 @@
 
 <style scoped>
 .main {
+  margin-top: 5%;
+  margin-bottom: 5%;
   display: flex;
   justify-content: flex-start;
 }
 
 .home {
-  margin-top: 3%;
+  margin-left: 3%;
   padding: 0;
   text-align: left;
   max-width: 600px;

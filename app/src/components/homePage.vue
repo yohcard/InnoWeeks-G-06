@@ -41,20 +41,23 @@
 .main {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
+  grid-gap: 20px;
   width: 50%;
-  margin-left: auto; /* Ajusta el margen para pegarlo a la derecha */
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 25%;
 }
 
 .cartHome {
-  background-color: #acacac;
-  height: auto;
-  padding: 20px;
+  background-color: lightgray;
+  padding: 10px;
   border-radius: 10px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  height: 200px;
+  width: 200px;
 }
 
 ul {
@@ -66,18 +69,25 @@ ul {
 
 h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-top: 5px;
+  margin-bottom: 10px;
   color: #333;
+  font-size: 15px;
 }
 
 .image-container {
   text-align: center;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .image-container img {
-  width: 150px;
+  width: 100%;
+  height: 125px;
   max-width: 150px;
-  height: 150px;
+  max-height: 150px;
   display: block;
   border-radius: 5%;
 }

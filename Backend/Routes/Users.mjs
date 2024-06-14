@@ -2,6 +2,19 @@ import { models } from "../Db/sequelize.mjs";
 import { auth, authUser, AuthAdmin } from "../Auth/auth.mjs";
 import bcrypt from "bcrypt";
 import express from "express";
+import dotenv from "dotenv";
+import path from "path";
+import mailjet from "node-mailjet";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
+const mailjetClient = mailjet.apiConnect(
+  process.env.MAILJET_API_KEY2,
+  process.env.MAILJET_API_SECRET2
+);
+const EntrepriseMail = process.env.ENTRENPRISE_MAIL2;
 
 const UsersRouter = express();
 
@@ -41,6 +54,12 @@ UsersRouter.get("/:id", authUser, async (req, res) => {
 UsersRouter.post("/", auth, async (req, res) => {
   const { utiPrenom, utiNom, utiAdresse_Mail, utiPseudo, utiMdp } = req.body;
   try {
+    let code = 0;
+    for (let i = 0; i < 6; i++) {
+      let character = Math.floor(Math.random() * 10);
+      code = code * 10 + character;
+    }
+
     const hash = await bcrypt.hash(utiMdp, 10);
     const BodyData = {
       utiPrenom,
@@ -51,9 +70,35 @@ UsersRouter.post("/", auth, async (req, res) => {
       utiAdmin: false,
       utiLogged: false,
       utiPoints: 0,
-      utiLogCode: null,
+      utiLogCode: code,
     };
     const newUser = await models.T_Utilisateur.create(BodyData);
+    const subject = "Votre code de connexion";
+    const messageSend =
+      "Bienvenue sur notre page, voici votre code de connexion: ";
+
+    const request = mailjetClient.post("send", { version: "v3.1" }).request({
+      Messages: [
+        {
+          From: {
+            Email: EntrepriseMail,
+            Name: "Dario",
+          },
+          To: [
+            {
+              Email: utiAdresse_Mail,
+              Name: utiPseudo,
+            },
+          ],
+          Subject: subject,
+          TextPart: messageSend + code,
+          HTMLPart: messageSend + code,
+          CustomID: "CodeUser" + code,
+        },
+      ],
+    });
+    const result = await request;
+    console.log(result.body);
     const message = "Nouveau utilisateur créé avec succès";
     res.json({ msg: message, data: newUser });
   } catch (error) {

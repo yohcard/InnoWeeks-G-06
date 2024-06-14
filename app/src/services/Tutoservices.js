@@ -33,8 +33,8 @@ export default {
   getPrerequisite() {
     return apiClient.get('/prerequisite')
   },
-  getExePrerequisites() {
-    return apiClient.get('/belong/allprerequis')
+  getExePrerequisites(exeId) {
+    return apiClient.get(`/belong/allprerequis/${exeId}`)
   },
   login(credentials) {
     return apiClient.post('/log', credentials)

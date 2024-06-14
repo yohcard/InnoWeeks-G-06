@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import { models } from "../Db/sequelize.mjs";
 import { auth, authUser } from "../Auth/auth.mjs";
 import { Op } from "sequelize";
-/*
+
 import mailjet from "node-mailjet";
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
@@ -18,7 +18,7 @@ const mailjetClient = mailjet.apiConnect(
   process.env.MAILJET_API_SECRET2
 );
 const EntrepriseMail = process.env.ENTRENPRISE_MAIL2;
-*/
+
 const logRouter = express();
 const privatekey = process.env.PRIVATE_KEY;
 
@@ -71,7 +71,7 @@ logRouter.post("/", auth, async (req, res) => {
     res.status(500).json({ msg: message, data: error.message });
   }
 });
-/*
+
 logRouter.post("/in", auth, async (req, res) => {
   const { utiAdresse_Mail, utiMdp } = req.body;
 
@@ -141,7 +141,7 @@ logRouter.post("/in", auth, async (req, res) => {
     }
   }
 });
-*/
+
 logRouter.post("/code", auth, async (req, res) => {
   const { utiAdresse_Mail, utiLogCode } = req.body;
   try {

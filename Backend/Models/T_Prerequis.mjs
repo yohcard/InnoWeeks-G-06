@@ -13,10 +13,6 @@ const _T_Prerequis = (sequelize, DataTypes) => {
         type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-          is: {
-            args: /^[A-Za-z0-9\s]/,
-            msg: "Seules les lettres, les chiffres et les espaces sont autorisées.",
-          },
           notEmpty: {
             msg: "Le titre ne peut pas être vide",
           },
@@ -42,33 +38,25 @@ const _T_Prerequis = (sequelize, DataTypes) => {
         },
       },
       preMessage_Reussi: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(100),
         allowNull: false,
         validate: {
-          is: {
-            args: /^[A-Za-z0-9\s]/,
-            msg: "Seules les lettres, les chiffres et les espaces sont autorisées.",
-          },
           notEmpty: {
-            msg: "Le message de réussi du prérequis ne peut pas être vide",
+            msg: "Le message de réussite du prérequis ne peut pas être vide.",
           },
           notNull: {
-            msg: "Le message de réussi du prérequis est une propriété obligatoire.",
+            msg: "Le message de réussite du prérequis est une propriété obligatoire.",
           },
           len: {
-            args: [0, 50],
-            msg: "Le message de réussi du prérequis doit contenir au maximum 60 caractères.",
+            args: [0, 100],
+            msg: "Le message de réussite du prérequis doit contenir au maximum 50 caractères.",
           },
         },
       },
       preMessage_Rate: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(100),
         allowNull: false,
         validate: {
-          is: {
-            args: /^[A-Za-z0-9\s]/,
-            msg: "Seules les lettres, les chiffres et les espaces sont autorisées.",
-          },
           notEmpty: {
             msg: "Le message d'échec du prérequis ne peut pas être vide",
           },
@@ -76,7 +64,7 @@ const _T_Prerequis = (sequelize, DataTypes) => {
             msg: "Le message d'échec du prérequis est une propriété obligatoire.",
           },
           len: {
-            args: [0, 50],
+            args: [0, 100],
             msg: "Le message d'échec du prérequis doit contenir au maximum 60 caractères.",
           },
         },
@@ -85,10 +73,6 @@ const _T_Prerequis = (sequelize, DataTypes) => {
         type: DataTypes.STRING(150),
         allowNull: false,
         validate: {
-          is: {
-            args: /^[A-Za-z0-9\s]/,
-            msg: "Seules les lettres, les chiffres et les espaces sont autorisées.",
-          },
           notEmpty: {
             msg: "La description du prérequis ne peut pas être vide",
           },

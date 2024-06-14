@@ -34,7 +34,7 @@ const _T_Exercice = (sequelize, DataTypes) => {
         },
       },
       exeDescription: {
-        type: DataTypes.STRING(150),
+        type: DataTypes.STRING(200),
         allowNull: false,
         unique: {
           msg: "Cette description est déjà utilisé.",
@@ -51,8 +51,8 @@ const _T_Exercice = (sequelize, DataTypes) => {
             msg: "La description de l'exercice est une propriété obligatoire.",
           },
           len: {
-            args: [0, 150],
-            msg: "La description de l'exercice doit contenir au maximum 60 caractères.",
+            args: [0, 200],
+            msg: "La description de l'exercice doit contenir au maximum 150 caractères.",
           },
         },
       },

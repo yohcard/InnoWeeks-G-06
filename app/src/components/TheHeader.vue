@@ -3,10 +3,11 @@
     <div class="container">
       <div class="logo">
         <img src="../assets/logo.svg" alt="Logo" />
+        <h1>FlashTuto</h1>
       </div>
       <nav v-if="isAuthenticated">
         <RouterLink :to="{ name: 'home' }">Accueil</RouterLink>
-        <RouterLink :to="{ name: 'exercices1' }">Exercices</RouterLink>
+        <RouterLink :to="{ name: 'exercices' }">Exercices</RouterLink>
         <RouterLink :to="{ name: 'video' }">Video</RouterLink>
         <RouterLink :to="{ name: 'contact' }">Contact</RouterLink>
       </nav>
@@ -26,6 +27,7 @@ onUpdated(() => {})
 header {
   width: 100%;
   background-color: lightgrey;
+  max-height: 70px;
 }
 
 .container {
@@ -33,17 +35,21 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1920px;
   margin: 0 auto;
   padding: 0 1rem;
   color: #fff;
 }
 
 .logo img {
-  max-height: 50px; /* Ajusta la altura máxima de la imagen */
+  max-height: 75px;
 }
 
+.logo {
+  display: flex;
+}
 nav {
+  font-size: 150%;
   display: flex;
   gap: 15px;
 }

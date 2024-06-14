@@ -15,8 +15,8 @@ BelongRouter.get("/", auth, async (req, res) => {
   }
 });
 
-BelongRouter.get("/allprerequis", auth, async (req, res) => {
-  const { exeId } = req.body;
+BelongRouter.get("/allprerequis/:exeId", auth, async (req, res) => {
+  const { exeId } = req.params;
   try {
     const Exercise = await models.T_Exercice.findByPk(exeId);
     if (!Exercise) {
@@ -32,7 +32,7 @@ BelongRouter.get("/allprerequis", auth, async (req, res) => {
       const message = `Aucune liaison trouvé.`;
       return res.status(200).json({ msg: message });
     }
-    const prerequisIds = await exepre.map((belongs) => belongs.preId);
+    const prerequisIds = exepre.map((belongs) => belongs.preId);
 
     const allprerequis = await models.T_Prerequis.findAll({
       where: { preId: prerequisIds },
