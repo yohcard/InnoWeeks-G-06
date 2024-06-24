@@ -30,6 +30,6 @@ onMounted(() => {
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
   width: 100%;
-  margin: auto;
+  margin: 50px;
 }
 </style>

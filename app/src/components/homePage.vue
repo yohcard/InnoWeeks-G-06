@@ -41,11 +41,8 @@
 .main {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
-  width: 50%;
-  margin-top: 5%;
-  margin-bottom: 5%;
-  margin-left: 25%;
+  width: 75%;
+  margin: 5%;
 }
 
 .cartHome {
@@ -56,8 +53,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 200px;
-  width: 200px;
+  height: 90%;
+  width: 90%;
 }
 
 ul {
@@ -85,9 +82,9 @@ h2 {
 
 .image-container img {
   width: 100%;
-  height: 125px;
-  max-width: 150px;
-  max-height: 150px;
+  height: 200px;
+  max-width: 200px;
+  max-height: 200px;
   display: block;
   border-radius: 5%;
 }

@@ -28,9 +28,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h3 class="title">Liste d'exercices:</h3>
   <div class="home">
     <div class="exercise-container">
+      <h3 class="title">Liste d'exercices:</h3>
       <ExercisesView
         v-for="(exercice, index) in exercices"
         :key="exercice.exeId"

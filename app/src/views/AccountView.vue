@@ -81,8 +81,7 @@ const login = async () => {
   margin-bottom: 295px;
   max-width: 400px;
   width: 350px;
-  background: rgb(167, 254, 255);
-  background: linear-gradient(203deg, rgba(167, 254, 255, 1) 0%, rgba(110, 255, 170, 1) 100%);
+  background: lightcyan;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -125,7 +124,7 @@ input[type='submit'] {
 }
 
 input[type='submit'] {
-  background: #28a745;
+  background: blue;
   font-family: 'Arial', sans-serif;
   font-weight: bold;
   color: white;
