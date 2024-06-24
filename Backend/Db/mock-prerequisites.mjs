@@ -58,6 +58,24 @@ const prerequisites = [
       "Malheureusement, vous n'avez pas réussi. Essayez à nouveau.",
     preDescription: "Écrivez un mot de passe sécurisé.",
   },
+  {
+    preId: 8,
+    preTitre: "Écrire un sujet",
+    preNb_Points: 18,
+    preMessage_Reussi: "Bravo, vous avez réussi!",
+    preMessage_Rate:
+      "Malheureusement, vous n'avez pas réussi. Essayez à nouveau.",
+    preDescription: "Écrire un sujet.",
+  },
+  {
+    preId: 9,
+    preTitre: "Écrire un text",
+    preNb_Points: 18,
+    preMessage_Reussi: "Bravo, vous avez réussi!",
+    preMessage_Rate:
+      "Malheureusement, vous n'avez pas réussi. Essayez à nouveau.",
+    preDescription: "Écrire un text.",
+  },
 ];
 
 export { prerequisites };

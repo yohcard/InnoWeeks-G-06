@@ -37,7 +37,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-Router'
+import { useRouter } from 'vue-router'
 
 const isLoginFormVisible = ref(false)
 const username = ref('')
@@ -60,7 +60,7 @@ const login = () => {
   if (username.value === expectedUsername && password.value === expectedPassword) {
     alert('Connexion réussie !')
     exe1.value = true
-    router.value.push('/exercices2')
+    router.value.push('/ExerciseView3')
   } else {
     if (password.value !== expectedPassword) {
       if (password.value.toLowerCase() === expectedPassword.toLowerCase()) {

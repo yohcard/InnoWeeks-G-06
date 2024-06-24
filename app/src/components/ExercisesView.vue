@@ -16,9 +16,14 @@ const props = defineProps({
 
 const showRequirements = ref(false)
 const router = useRouter()
-
+let number = { id: props.Exercise.exeId }
+let page = 'ExerciseView' + number.id
+console.log(page)
 const goToAnotherPage = () => {
-  router.push({ name: 'exercice', params: { id: props.Exercise.exeId } })
+  router.push({
+    name: page,
+    params: { id: props.Exercise.exeId }
+  })
 }
 
 const toggleRequirements = () => {

@@ -11,6 +11,12 @@ const exercises = [
     exeDescription:
       "Dans cet exercice, nous allons vous guider à travers les étapes nécessaires pour se connecter à un site web de manière sécurisée.",
   },
+  {
+    exeId: 3,
+    exeTitre: "Adresse mail",
+    exeDescription:
+      "Dans cet exercice, nous allons vous guider à travers les étapes nécessaires pour écrire un mail.",
+  },
 ];
 
 export { exercises };

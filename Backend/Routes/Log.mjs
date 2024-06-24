@@ -22,7 +22,7 @@ const EntrepriseMail = process.env.ENTRENPRISE_MAIL2;
 const logRouter = express();
 const privatekey = process.env.PRIVATE_KEY;
 
-logRouter.post("/", auth, async (req, res) => {
+logRouter.post("/", async (req, res) => {
   const { utiAdresse_Mail, utiMdp } = req.body;
   try {
     const user = await models.T_Utilisateur.findOne({

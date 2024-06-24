@@ -10,6 +10,7 @@
         <RouterLink :to="{ name: 'exercices' }">Exercices</RouterLink>
         <RouterLink :to="{ name: 'video' }">Video</RouterLink>
         <RouterLink :to="{ name: 'contact' }">Contact</RouterLink>
+        <RouterLink :to="{ name: 'account' }">Compte</RouterLink>
       </nav>
     </div>
   </header>

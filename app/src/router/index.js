@@ -39,14 +39,29 @@ const router = createRouter({
       component: () => import('@/views/contact&Links.vue')
     },
     {
+      path: '/AccountView',
+      name: 'account',
+      component: () => import('@/views/AccountView.vue')
+    },
+    {
       path: '/exercices',
       name: 'exercices',
       component: () => import('@/views/ExercicesList.vue')
     },
     {
-      path: '/exercice',
-      name: 'exercice',
-      component: () => import('@/views/Exercise.vue')
+      path: '/ExerciseView1',
+      name: 'ExerciseView1',
+      component: () => import('@/views/ExerciseView1.vue')
+    },
+    {
+      path: '/ExerciseView2',
+      name: 'ExerciseView2',
+      component: () => import('@/views/ExerciseView2.vue')
+    },
+    {
+      path: '/ExerciseView3',
+      name: 'ExerciseView3',
+      component: () => import('@/views/ExerciceView3.vue')
     }
   ]
 })

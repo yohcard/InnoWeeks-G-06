@@ -19,21 +19,11 @@
           </video>
         </div>
       </li>
-      <li class="videoItem">
-        <h2>Comment utiliser Chat GPT</h2>
-        <div class="video-container">
-          <video controls>
-            <source src="/video2.mp4" type="video/mp4" />
-            Votre navigateur ne supporte pas la balise vidéo.
-          </video>
-        </div>
-      </li>
     </ul>
   </div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style scoped>
 .main {
