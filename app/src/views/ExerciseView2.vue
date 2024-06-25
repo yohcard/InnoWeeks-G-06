@@ -15,8 +15,8 @@
     </transition>
   </div>
   <div v-if="exe1" id="loginForm">
-    <a href="exercices2">
-      <button>aller à l'exercices 2</button>
+    <a href="ExerciseView3">
+      <button>aller à l'exercices 3</button>
     </a>
   </div>
 </template>

@@ -3,7 +3,7 @@
     <div class="container">
       <div class="logo">
         <img src="../assets/logo.svg" alt="Logo" />
-        <h1>FlashTuto</h1>
+        <h1>TAJYD</h1>
       </div>
       <nav v-if="isAuthenticated">
         <RouterLink :to="{ name: 'home' }">Accueil</RouterLink>
